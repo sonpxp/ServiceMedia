@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements MyService.GetCurr
 
     private void clickStopMusic() {
         Intent intent = new Intent(this, MyService.class);
+        unbindService(connection);
         isBind = false;
         stopService(intent);
     }

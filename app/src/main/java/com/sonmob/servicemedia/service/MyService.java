@@ -80,6 +80,7 @@ public class MyService extends Service {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 if (currentMediaPlayer != null) {
+                    currentMediaPlayer.onPrepared(mp.getDuration());
                 }
             }
         });
@@ -90,7 +91,7 @@ public class MyService extends Service {
     private final Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
-            mMediaPlayer.getCurrentPosition();
+            currentMediaPlayer.updateSeekbar(mMediaPlayer.getCurrentPosition());
             handler.postDelayed(this, 1000);
         }
     };
