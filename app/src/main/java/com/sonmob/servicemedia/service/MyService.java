@@ -1,4 +1,4 @@
- package com.sonmob.servicemedia.service;
+package com.sonmob.servicemedia.service;
 
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -75,6 +75,7 @@ public class MyService extends Service {
 
         if (mMediaPlayer == null) {
             mMediaPlayer = MediaPlayer.create(getApplicationContext(), song.getResource());
+            handler.postDelayed(mRunnable, 1000);
         }
         mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -85,13 +86,14 @@ public class MyService extends Service {
             }
         });
         mMediaPlayer.start();
-        handler.postDelayed(mRunnable, 1000);
     }
 
     private final Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
-            currentMediaPlayer.updateSeekbar(mMediaPlayer.getCurrentPosition());
+            if (currentMediaPlayer != null && mMediaPlayer != null) {
+                currentMediaPlayer.updateSeekbar(mMediaPlayer.getCurrentPosition());
+            }
             handler.postDelayed(this, 1000);
         }
     };
@@ -131,4 +133,6 @@ public class MyService extends Service {
             mMediaPlayer = null;
         }
     }
+
+
 }

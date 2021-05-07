@@ -4,10 +4,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
@@ -60,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements MyService.GetCurr
             @Override
             public void onClick(View v) {
                 clickStopMusic();
+
             }
         });
 
@@ -84,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements MyService.GetCurr
         unbindService(connection);
         isBind = false;
         stopService(intent);
+
     }
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -105,17 +105,8 @@ public class MainActivity extends AppCompatActivity implements MyService.GetCurr
     };
 
     @Override
-    protected void onDestroy() {
-        Log.e("Tag", "onDestroy");
-
-        super.onDestroy();
-        unbindService(connection);
-        isBind = false;
-    }
-
-    @Override
     public void updateSeekbar(int currentTime) {
-        Log.e("Tag", "updateSeekbar");
+        //Log.e("Tag", "updateSeekbar");
         seekBar.setProgress(currentTime);
 
     }
@@ -124,5 +115,14 @@ public class MainActivity extends AppCompatActivity implements MyService.GetCurr
     public void onPrepared(int duration) {
         Log.e("Tag", "onPrepared");
         seekBar.setMax(duration);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.e("Tag", "onDestroy");
+
+        super.onDestroy();
+        unbindService(connection);
+        isBind = false;
     }
 }
